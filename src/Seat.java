@@ -1,12 +1,35 @@
 public class Seat {
-    private String name;
-    private String food;
-    private boolean available;
+    private final int seatNumber;
+    private final String[] food;
+    private String time;
     private int totalPrice;
 
-    public Seat(String name, String food) {
-        this.name = name;
+    public Seat(int seatNumber, String[] food, String time, int totalPrice) {
+        this.seatNumber = seatNumber;
         this.food = food;
-        this.available = false;
+        this.time = time;
+        this.totalPrice = totalPrice;
+    }
+
+    public Seat(int seatNumber, String[] food) {
+        this.seatNumber = seatNumber;
+        this.food = food;
+    }
+
+    public int getSeatNumber() {
+        return seatNumber;
+    }
+
+    public String[] getFood() {
+        return food;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+
+    public int getTotalPrice() {
+        return totalPrice;
     }
 }
