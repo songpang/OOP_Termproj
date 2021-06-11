@@ -1,3 +1,5 @@
+package aplicationframe;
+
 import javax.swing.*;
 import java.awt.*;
 
