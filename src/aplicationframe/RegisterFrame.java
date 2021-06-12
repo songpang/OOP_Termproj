@@ -2,6 +2,8 @@ package aplicationframe;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class RegisterFrame extends JFrame {
     public RegisterFrame() {
@@ -26,10 +28,23 @@ public class RegisterFrame extends JFrame {
         c.add(new JTextField("이건?"));
 
         c.add(jPanel);
-        jPanel.add(new JButton("회원가입"));
+        JButton ConfirmRegisterBtn = new JButton("회원가입");
+        ConfirmRegisterBtn.addActionListener(new ConfirmRegisterActionListener());
+        jPanel.add(ConfirmRegisterBtn);
+
 
         setSize(600, 200);
         setVisible(true);
+    }
+
+    class ConfirmRegisterActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("register Button Clicked");
+            setVisible(false);
+
+            LoginFrame loginFrame = new LoginFrame();
+        }
     }
 
     public static void main(String[] args) {
