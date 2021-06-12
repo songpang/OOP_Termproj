@@ -33,10 +33,9 @@ public class ReservationFrame extends JFrame{
             c.add(tablePanel[i]);
         }
 
-        tablePanel[2].setBackground(Color.MAGENTA);
         tablePanel[2].add(new JLabel("36,000원"));
-        tablePanel[2].add(new JLabel("삼겹살"));
-        tablePanel[2].add(new JLabel("10:00-12:00"));
+        tablePanel[2].removeAll();
+        tablePanel[2].add(new JLabel("table " + 2));
 
         c.add(jPanel);
         JButton ConfirmRegisterBtn = new JButton("회원가입");
@@ -45,6 +44,14 @@ public class ReservationFrame extends JFrame{
 
         setSize(800, 600);
         setVisible(true);
+    }
+
+    // 자리를 예약하는 메서드
+    private void reserveSeat(int seatNumber, String[] orders, String time) {
+        tablePanel[seatNumber].setBackground(Color.MAGENTA);
+        tablePanel[seatNumber].add(new JLabel("36,000원"));
+        tablePanel[seatNumber].add(new JLabel("삼겹살"));
+        tablePanel[seatNumber].add(new JLabel("10:00-12:00"));
     }
 
     class ConfirmRegisterActionListener implements ActionListener {

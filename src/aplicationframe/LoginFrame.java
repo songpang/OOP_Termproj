@@ -16,21 +16,33 @@ public class LoginFrame extends JFrame {
         Container c = getContentPane();
         c.setLayout(grid);
 
-        JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel jPanelForBtn = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel jPanelForRadio = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         c.add(new JLabel("ID"));
         c.add(new JTextField("이곳에 입력해주세요."));
         c.add(new JLabel("PASSWORD"));
         c.add(new JTextField("이곳에 입력해주세요."));
 
-        c.add(jPanel);
+        c.add(jPanelForRadio);
+        ButtonGroup positionGroup = new ButtonGroup();
+        JRadioButton customer = new JRadioButton("고객", true);
+        JRadioButton administrator = new JRadioButton("관리자");
+
+        positionGroup.add(customer);
+        positionGroup.add(administrator);
+
+        jPanelForRadio.add(customer);
+        jPanelForRadio.add(administrator);
+
+        c.add(jPanelForBtn);
         JButton loginBtn = new JButton("로그인");
         JButton registerBtn = new JButton("회원가입");
 
         loginBtn.addActionListener(new LoginActionListener());
         registerBtn.addActionListener(new RegisterActionListener());
-        jPanel.add(loginBtn);
-        jPanel.add(registerBtn);
+        jPanelForBtn.add(loginBtn);
+        jPanelForBtn.add(registerBtn);
 
         setSize(600, 200);
         setVisible(true);
