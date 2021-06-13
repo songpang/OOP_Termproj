@@ -1,4 +1,6 @@
-public class Customer extends Member{
+package domain;
+
+public class Customer extends User {
     private int totalAmount;
 
     public Customer(String position, String name, String id, String password, String phoneNumber) {

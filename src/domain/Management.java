@@ -1,3 +1,5 @@
+package domain;
+
 public class Management {
     public static Customer[] members = new Customer[100];
 
@@ -5,14 +7,14 @@ public class Management {
         Customer newMember;
 
         if(position.equals("admin")) {
-//            newMember = new Customer();
+//            newMember = new domain.Customer();
         } else {
-//            newMember = new Customer();
+//            newMember = new domain.Customer();
         }
     }
 
     public static void login(String id, String password) {
-        for (Member member : members) {
+        for (User member : members) {
             if(member.getId().equals(id) && member.getPassword().equals(password)) {
                 System.out.println("로그인 성공");
             } else {

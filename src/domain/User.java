@@ -1,11 +1,13 @@
-public class Member {
+package domain;
+
+public class User {
     private String position;
     private String name;
     private String id;
     private String password;
     private String phoneNumber;
 
-    public Member(String position, String name, String id, String password, String phoneNumber) {
+    public User(String position, String name, String id, String password, String phoneNumber) {
         this.position = position;
         this.name = name;
         this.id = id;

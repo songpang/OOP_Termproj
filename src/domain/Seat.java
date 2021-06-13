@@ -1,3 +1,5 @@
+package domain;
+
 public class Seat {
     private final int seatNumber;
     private final String[] food;
