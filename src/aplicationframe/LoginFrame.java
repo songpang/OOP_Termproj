@@ -12,9 +12,15 @@ public class LoginFrame extends JFrame {
 
     private final JTextField idTextField = new JTextField();
     private final JTextField pwTextField = new JTextField();
-    private String[] userInfo = new String[2];
+    private JRadioButton customerRadio;
+    private JRadioButton adminRadio;
+
+    private final User[] currentUsers;
+    private final String[] userInfo = new String[2];
 
     public LoginFrame(User[] users) {
+        currentUsers = users;
+
         setTitle("Login Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -39,6 +45,10 @@ public class LoginFrame extends JFrame {
         setVisible(true);
     }
 
+    public String[] getUserInfo() {
+        return userInfo;
+    }
+
     private void createBtn(Container c, JPanel jPanelForBtn) {
         c.add(jPanelForBtn);
 
@@ -56,21 +66,19 @@ public class LoginFrame extends JFrame {
         c.add(jPanelForRadio);
 
         ButtonGroup positionGroup = new ButtonGroup();
-        JRadioButton customer = new JRadioButton("고객", true);
-        JRadioButton administrator = new JRadioButton("관리자");
+        customerRadio = new JRadioButton("고객", true);
+        adminRadio = new JRadioButton("관리자");
 
-        positionGroup.add(customer);
-        positionGroup.add(administrator);
+        positionGroup.add(customerRadio);
+        positionGroup.add(adminRadio);
 
-        jPanelForRadio.add(customer);
-        jPanelForRadio.add(administrator);
+        jPanelForRadio.add(customerRadio);
+        jPanelForRadio.add(adminRadio);
     }
 
     class LoginActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("login Button Clicked");
-
             userInfo[0] = idTextField.getText();
             userInfo[1] = pwTextField.getText();
 
@@ -78,9 +86,23 @@ public class LoginFrame extends JFrame {
                 JOptionPane.showMessageDialog(null, "\"전부 입력해주세요.\"",
                         "Login Error", JOptionPane.WARNING_MESSAGE);
             } else {
-                System.out.println("감사합니다");
                 //Validation Check
-                new ReservationFrame();
+                for (User currentUser : currentUsers) {
+                    if(currentUser.getId().equals(userInfo[0]) && currentUser.getPassword().equals(userInfo[1])) {
+                        System.out.println("로그인 성공");
+                        // 일반 사용자로 시작 시
+                        if(customerRadio.isSelected()) {
+                            new ReservationFrame();
+                        }
+                        // 관리자로 시작 시
+                        else {
+                            new ReservationFrame();
+                        }
+                        return;
+                    }
+                }
+                JOptionPane.showMessageDialog(null, "\"입력하신 정보가 올바르지 않습니다..\"",
+                        "Login Error", JOptionPane.WARNING_MESSAGE);
             }
         }
     }
@@ -93,9 +115,5 @@ public class LoginFrame extends JFrame {
 
             RegisterFrame registerFrame = new RegisterFrame();
         }
-    }
-
-    public static void main(String[] args) {
-//        LoginFrame loginFrame = new LoginFrame();
     }
 }
