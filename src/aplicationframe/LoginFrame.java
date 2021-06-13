@@ -17,6 +17,8 @@ public class LoginFrame extends JFrame {
     private JRadioButton adminRadio;
 
     public static List<User> currentUsers;
+    public static List<User> currentCustomers;
+
     public final String[] userInfo = new String[2];
 
     public LoginFrame(List<User> users) {

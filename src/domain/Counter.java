@@ -3,7 +3,7 @@ package domain;
 import java.util.*;
 
 public class Counter {
-    private static final List<Seat> reservedSeats = new ArrayList<>(); // 예약된 좌석을 저장하는 리스트
+    public static final List<Seat> reservedSeats = new ArrayList<>(); // 예약된 좌석을 저장하는 리스트
     public static final Map<String, Integer> menu = new HashMap<>();
 
     public Counter() {
@@ -23,7 +23,7 @@ public class Counter {
         menu.put("부속고기", 12000);
     }
 
-    public static int reserve(int seatNumber, String[] food, String time) {
+    public static int reserve(int seatNumber, String food, String time) {
         int totalPrice = 0;
         for (Seat seat : reservedSeats) {
             // 예약하고자 하는 시간대의 좌석이 예약되어 있는지 체크.
@@ -38,29 +38,26 @@ public class Counter {
         return totalPrice;
     }
 
-    public static int calculatePrice(String[] food) {
+    public static int calculatePrice(String food) {
         int totalPrice = 0;
-        for (String s : food) {
+        String[] foods = food.split(" ");
+
+        for (String s : foods) {
             totalPrice += menu.get(s);
         }
+
         return totalPrice;
     }
 
     // 음식 추가 주문하는 메서드
-    public static int orderAdditionalFood(Seat seat, String[] additionalFood) {
+    public static int orderAdditionalFood(Seat seat, String additionalFood) {
         int totalPrice = seat.getTotalPrice() + calculatePrice(additionalFood);
-        String[] originalFood = seat.getFood();
-        String[] newOrderedFood = new String[originalFood.length + additionalFood.length];
-
-        // 기존 주문과 새로운 주문을 새로운 Array 에 복사.
-        System.arraycopy(originalFood, 0, newOrderedFood, 0, originalFood.length);
-        System.arraycopy(additionalFood, 0, newOrderedFood, originalFood.length, additionalFood.length);
-
+        String originalFood = seat.getFood();
+        String newOrderedFood = originalFood + " " + additionalFood;
         Seat modifiedSeat = new Seat(seat.getSeatNumber(), newOrderedFood, seat.getTime(), totalPrice);
 
         reservedSeats.remove(seat);
         reservedSeats.add(modifiedSeat);
-
         return totalPrice;
     }
 

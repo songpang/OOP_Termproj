@@ -1,6 +1,8 @@
 package aplicationframe;
 
 import domain.Counter;
+import domain.Seat;
+import domain.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,8 +17,11 @@ public class ReservationFrame extends JFrame {
 
     private final Counter counter = new Counter();
     private int focusedTableNumber;
+    private final String[] loginUserInfo;
 
     public ReservationFrame(String[] userInfo) {
+        loginUserInfo = userInfo;
+
         setTitle("Register Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = getContentPane();
@@ -62,7 +67,7 @@ public class ReservationFrame extends JFrame {
             // 좌석, 인원, 음식, 시간
             orderInfo[0] = (String) tableNumber.getSelectedItem();
             orderInfo[1] = "3";
-            orderInfo[2] = "Kimchi";
+            orderInfo[2] = "된장찌개";
             orderInfo[3] = "1200-1400";
             reserveSeat(orderInfo);
         });
@@ -72,7 +77,7 @@ public class ReservationFrame extends JFrame {
 
         cleanBtn.addActionListener(e -> {
             System.out.println("청소");
-            cleanSeat(Integer.parseInt((String)tableNumber.getSelectedItem()));
+            cleanSeat((String)tableNumber.getSelectedItem());
         });
 
         JButton menuBtn = new JButton("메뉴판");
@@ -82,7 +87,7 @@ public class ReservationFrame extends JFrame {
 //            for (String s : Counter.getMenu().keySet()) {
 //                System.out.println(s + " : " + Counter.getMenu().get(s));
 //            }
-            new MenuFrame(counter.menu);
+            new MenuFrame(Counter.menu);
         });
     }
 
@@ -101,26 +106,48 @@ public class ReservationFrame extends JFrame {
 
     // 자리를 예약하는 메서드
     private void reserveSeat(String[] orderInfo) {
+        //orderInfo 0 좌석 1 인원 2 음식 3 시간
         int tableNumber = Integer.parseInt(orderInfo[0]);
         int numberOfCustomers = Integer.parseInt(orderInfo[1]);
+        String totalPrice = String.valueOf(Counter.reserve(tableNumber, orderInfo[2], orderInfo[3]));
 
-        tablePanel[tableNumber].setBackground(new Color(61, 183, 204));
-        tablePanel[tableNumber].add(new JLabel(numberOfCustomers + "명"));
-        //Counter에서 음식값 계산하기
-        tablePanel[tableNumber].add(new JLabel("00,000원"));
-        tablePanel[tableNumber].add(new JLabel(orderInfo[2]));
-        tablePanel[tableNumber].add(new JLabel(orderInfo[3]));
-        tableLabel[tableNumber].setText("Reserved Table " + tableNumber);
+        if(totalPrice.equals("-1")) {
+            JOptionPane.showMessageDialog(null, "\"해당 자리에 예약할 수 없습니다.\"",
+                    "예약 불가", JOptionPane.WARNING_MESSAGE);
+        } else {
+            tablePanel[tableNumber].setBackground(new Color(61, 183, 204));
+            tablePanel[tableNumber].add(new JLabel(numberOfCustomers + "명"));
+            //Counter에서 음식값 계산하기
+            tablePanel[tableNumber].add(new JLabel(totalPrice));
+            tablePanel[tableNumber].add(new JLabel(orderInfo[2]));
+            tablePanel[tableNumber].add(new JLabel(orderInfo[3]));
+            tableLabel[tableNumber].setText("Reserved Table " + tableNumber);
+        }
     }
 
     // 자리를 계산하는 메서드
-    // tableNumber를 받아 해당하는 좌석을 정리함.
-    private void cleanSeat(int tableNumber) {
-        tableLabel[tableNumber] = new JLabel();
+    // tableNumber 받아 해당하는 좌석을 정리함.
+    private void cleanSeat(String tableNumber) {
+        int number = Integer.parseInt(tableNumber);
+        for (Seat reservedSeat : Counter.reservedSeats) {
+            if (reservedSeat.getSeatNumber() == number) {
+                Counter.reservedSeats.remove(reservedSeat);
+                tableLabel[number] = new JLabel();
 
-        tablePanel[tableNumber].removeAll();
-        tablePanel[tableNumber].setBackground(Color.pink);
-        tablePanel[tableNumber].add(tableLabel[tableNumber]);
-        tableLabel[tableNumber].setText("Table " + tableNumber);
+                tablePanel[number].removeAll();
+                tablePanel[number].setBackground(Color.pink);
+                tablePanel[number].add(tableLabel[number]);
+                tableLabel[number].setText("Table " + number);
+
+//                for (User currentUser : LoginFrame.currentUsers) {
+//                    if(currentUser.getId().equals(loginUserInfo[0])) {
+//                        currentUser.
+//                    }
+//                }
+                return;
+            }
+        }
+        JOptionPane.showMessageDialog(null, "\"해당 좌석은 비어있습니다.\"",
+                "에러", JOptionPane.WARNING_MESSAGE);
     }
 }

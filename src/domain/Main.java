@@ -19,12 +19,12 @@ public class Main {
     private User loginUser;
 
     public static User createDefaultUsers(String name) {
-        String position = "Admin";
+        String position = "Customer";
         String id = "1";
         String password = "1";
         String phoneNumber = "01036926920";
 
-        return new User(position, name, id, password, phoneNumber);
+        return new Customer(position, name, id, password, phoneNumber);
     }
 
     public static void main(String[] args) {
