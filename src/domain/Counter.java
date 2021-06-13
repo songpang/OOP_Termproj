@@ -4,9 +4,13 @@ import java.util.*;
 
 public class Counter {
     private static final List<Seat> reservedSeats = new ArrayList<>(); // 예약된 좌석을 저장하는 리스트
-    private static final Map<String, Integer> menu = new HashMap<>();
+    public static final Map<String, Integer> menu = new HashMap<>();
 
-    {
+    public Counter() {
+        createMenu();
+    }
+
+    private void createMenu() {
         menu.put("김치찌개", 8000);
         menu.put("된장찌개", 8000);
         menu.put("물냉면", 8000);

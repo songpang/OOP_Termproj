@@ -1,5 +1,7 @@
 package aplicationframe;
 
+import domain.Counter;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,9 +13,10 @@ public class ReservationFrame extends JFrame {
     private final String[] orderInfo = new String[4];
     private JComboBox<String> tableNumber;
 
+    private final Counter counter = new Counter();
     private int focusedTableNumber;
 
-    public ReservationFrame() {
+    public ReservationFrame(String[] userInfo) {
         setTitle("Register Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = getContentPane();
@@ -64,12 +67,22 @@ public class ReservationFrame extends JFrame {
             reserveSeat(orderInfo);
         });
 
-        JButton cleanBtn = new JButton("계산");
+        JButton cleanBtn = new JButton("정산");
         btnPanel.add(cleanBtn);
 
         cleanBtn.addActionListener(e -> {
             System.out.println("청소");
             cleanSeat(Integer.parseInt((String)tableNumber.getSelectedItem()));
+        });
+
+        JButton menuBtn = new JButton("메뉴판");
+        btnPanel.add(menuBtn);
+
+        menuBtn.addActionListener(e -> {
+//            for (String s : Counter.getMenu().keySet()) {
+//                System.out.println(s + " : " + Counter.getMenu().get(s));
+//            }
+            new MenuFrame(counter.menu);
         });
     }
 
@@ -93,12 +106,15 @@ public class ReservationFrame extends JFrame {
 
         tablePanel[tableNumber].setBackground(new Color(61, 183, 204));
         tablePanel[tableNumber].add(new JLabel(numberOfCustomers + "명"));
+        //Counter에서 음식값 계산하기
         tablePanel[tableNumber].add(new JLabel("00,000원"));
         tablePanel[tableNumber].add(new JLabel(orderInfo[2]));
         tablePanel[tableNumber].add(new JLabel(orderInfo[3]));
         tableLabel[tableNumber].setText("Reserved Table " + tableNumber);
     }
 
+    // 자리를 계산하는 메서드
+    // tableNumber를 받아 해당하는 좌석을 정리함.
     private void cleanSeat(int tableNumber) {
         tableLabel[tableNumber] = new JLabel();
 
@@ -106,9 +122,5 @@ public class ReservationFrame extends JFrame {
         tablePanel[tableNumber].setBackground(Color.pink);
         tablePanel[tableNumber].add(tableLabel[tableNumber]);
         tableLabel[tableNumber].setText("Table " + tableNumber);
-    }
-
-    public static void main(String[] args) {
-        new ReservationFrame();
     }
 }

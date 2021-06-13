@@ -1,13 +1,17 @@
 package aplicationframe;
 
+import domain.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.List;
+
+import static aplicationframe.LoginFrame.currentUsers;
 
 public class RegisterFrame extends JFrame {
-    private int isAdmin = 0;
-    private String[] userInfo;
+    private String[] userInfo = new String[5];
 
     private final JTextField nameTextField = new JTextField();
     private final JTextField idTextField = new JTextField();
@@ -45,17 +49,20 @@ public class RegisterFrame extends JFrame {
         ConfirmRegisterBtn.addActionListener(e -> {
             System.out.println("register Button Clicked");
 
-            userInfo = new String[4];
-            userInfo[0] = idTextField.getText();
-            userInfo[1] = nameTextField.getText();
-            userInfo[2] = pwTextField.getText();
-            userInfo[3] = phoneNumberTextField.getText();
+            userInfo[1] = idTextField.getText();
+            userInfo[2] = nameTextField.getText();
+            userInfo[3] = pwTextField.getText();
+            userInfo[4] = phoneNumberTextField.getText();
 
-            if (userInfo[0].trim().length() == 0 && userInfo[1].trim().length() == 0 &&
-                    userInfo[2].trim().length() == 0 && userInfo[3].trim().length() == 0) {
+            if (userInfo[1].trim().length() == 0 && userInfo[2].trim().length() == 0 &&
+                    userInfo[3].trim().length() == 0 && userInfo[4].trim().length() == 0) {
                 JOptionPane.showMessageDialog(null, "\"전부 입력해주세요.\"",
                         "회원가입 오류", JOptionPane.WARNING_MESSAGE);
             } else {
+                addUser(currentUsers);
+                JOptionPane.showMessageDialog(null, "\"회원가입 성공.\"",
+                        "회원가입", JOptionPane.WARNING_MESSAGE);
+                setVisible(false);
                 System.out.println("감사합니다");
             }
         });
@@ -68,6 +75,7 @@ public class RegisterFrame extends JFrame {
         backBtn.addActionListener(e -> {
             System.out.println("Back Button Clicked");
             setVisible(false);
+            getContentPane().getParent().setVisible(true);
 
 //            new LoginFrame();
         });
@@ -85,16 +93,16 @@ public class RegisterFrame extends JFrame {
         @Override
         public void itemStateChanged(ItemEvent e) {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                isAdmin = 1;
+                userInfo[0] = "1";
             } else {
-                isAdmin = 0;
+                userInfo[0] = "0";
             }
-            System.out.println(isAdmin);
+            System.out.println(userInfo[0]);
             System.out.println(nameTextField.getText());
         }
     }
 
-    public static void main(String[] args) {
-        RegisterFrame registerFrame = new RegisterFrame();
+    public void addUser(List<User> users) {
+        users.add(new User(userInfo[0], userInfo[1], userInfo[2], userInfo[3], userInfo[4]));
     }
 }

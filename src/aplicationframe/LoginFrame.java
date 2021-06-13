@@ -6,19 +6,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class LoginFrame extends JFrame {
     private int isAdmin = 0;
 
-    private final JTextField idTextField = new JTextField();
-    private final JTextField pwTextField = new JTextField();
+    private final JTextField idTextField = new JTextField("1");
+    private final JTextField pwTextField = new JTextField("1");
     private JRadioButton customerRadio;
     private JRadioButton adminRadio;
 
-    private final User[] currentUsers;
-    private final String[] userInfo = new String[2];
+    public static List<User> currentUsers;
+    public final String[] userInfo = new String[2];
 
-    public LoginFrame(User[] users) {
+    public LoginFrame(List<User> users) {
         currentUsers = users;
 
         setTitle("Login Frame");
@@ -88,15 +89,17 @@ public class LoginFrame extends JFrame {
             } else {
                 //Validation Check
                 for (User currentUser : currentUsers) {
-                    if(currentUser.getId().equals(userInfo[0]) && currentUser.getPassword().equals(userInfo[1])) {
+                    if(currentUser.getId().equals(userInfo[0]) &&
+                            currentUser.getPassword().equals(userInfo[1])) {
                         System.out.println("로그인 성공");
+                        System.out.println(currentUsers.size());
                         // 일반 사용자로 시작 시
                         if(customerRadio.isSelected()) {
-                            new ReservationFrame();
+                            new ReservationFrame(userInfo);
                         }
                         // 관리자로 시작 시
                         else {
-                            new ReservationFrame();
+                            new ReservationFrame(userInfo);
                         }
                         return;
                     }
@@ -111,8 +114,6 @@ public class LoginFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("register Button Clicked");
-            setVisible(false);
-
             RegisterFrame registerFrame = new RegisterFrame();
         }
     }
