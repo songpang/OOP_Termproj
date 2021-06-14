@@ -111,8 +111,6 @@ public class ReservationFrame extends JFrame{
         btnPanel.add(checkReservationBtn);
 
         reserveBtn.addActionListener(e -> {
-            System.out.println("클릭클릭");
-
             // 좌석, 인원, 음식, 시간
             orderInfo[0] = (String) tableNumber.getSelectedItem();
             orderInfo[1] = (String) partyNumber.getSelectedItem();
@@ -233,11 +231,6 @@ public class ReservationFrame extends JFrame{
                 tablePanel[number].add(tableLabel[number]);
                 tableLabel[number].setText("Table " + number);
 
-//                for (User currentUser : LoginFrame.currentUsers) {
-//                    if(currentUser.getId().equals(loginUserInfo[0])) {
-//                        currentUser.
-//                    }
-//                }
                 return;
             }
         }

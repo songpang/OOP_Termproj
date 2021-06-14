@@ -30,7 +30,7 @@ public class Counter {
         for (Seat seat : reservedSeats) {
             // 예약하고자 하는 시간대의 좌석이 예약되어 있는지 체크.
             if(seat.getSeatNumber() == seatNumber && seat.getTime().equals(time)) {
-                System.out.println("예약할 수 없습니다.");
+//                System.out.println("예약할 수 없습니다.");
                 return -1;
             }
         }
@@ -64,26 +64,7 @@ public class Counter {
         return totalPrice;
     }
 
-    public static void checkAvailableSeat(int seatNumber) {
-        for (Seat reservedSeat : reservedSeats) {
-            if(reservedSeat.getSeatNumber() == seatNumber) {
-                System.out.println("해당 좌석은 예약이 있습니다. ");
-                System.out.println(reservedSeat.getTime() + "30분 이후부터 예약이 가능합니다.");
-                return;
-            }
-        }
-
-        System.out.println("해당 좌석은 예약이 없습니다.");
-    }
-
-    public static List<Seat> getReservedSeats() {
-        return reservedSeats;
-    }
-
-    public static Map<String, Integer> getMenu() {
-        return menu;
-    }
-
+    //정산된 자리를 치우는 메서드
     public static void removeSeat(Seat seat) {
         reservedSeats.remove(seat);
     }
