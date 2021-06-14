@@ -43,6 +43,7 @@ public class RegisterFrame extends JFrame {
         setVisible(true);
     }
 
+    // 회원가입 버튼을 만드는 프로세스 분리.
     private void createRegisterBtn(Container c, JPanel jPanelForRegisterBtn) {
         c.add(jPanelForRegisterBtn);
         JButton ConfirmRegisterBtn = new JButton("회원가입");
@@ -54,11 +55,12 @@ public class RegisterFrame extends JFrame {
             userInfo[3] = pwTextField.getText();
             userInfo[4] = phoneNumberTextField.getText();
 
+            // 텍스트창에 입력되지 않은 것이 하나라도 있으면 오류
             if (userInfo[1].trim().length() == 0 && userInfo[2].trim().length() == 0 &&
                     userInfo[3].trim().length() == 0 && userInfo[4].trim().length() == 0) {
                 JOptionPane.showMessageDialog(null, "\"전부 입력해주세요.\"",
                         "회원가입 오류", JOptionPane.WARNING_MESSAGE);
-            } else {
+            } else { // 모두 입력했다면 성공적으로 가입.
                 addUser(currentUsers);
                 JOptionPane.showMessageDialog(null, "\"회원가입 성공.\"",
                         "회원가입", JOptionPane.WARNING_MESSAGE);
@@ -69,6 +71,7 @@ public class RegisterFrame extends JFrame {
         jPanelForRegisterBtn.add(ConfirmRegisterBtn);
     }
 
+    // 뒤로가기 버튼 프로세스 분리
     private void createBackBtn(Container c, JPanel jPanelForBackBtn) {
         c.add(jPanelForBackBtn);
         JButton backBtn = new JButton("뒤로가기");
@@ -80,6 +83,7 @@ public class RegisterFrame extends JFrame {
         jPanelForBackBtn.add(backBtn);
     }
 
+    // 체크박스 생성 프로세스 분리.
     private void createAdminCheckBox(Container c, JPanel jPanelForAdmin) {
         c.add(jPanelForAdmin);
         JCheckBox positionCheckBox = new JCheckBox("관리자 여부 체크");
@@ -87,6 +91,7 @@ public class RegisterFrame extends JFrame {
         jPanelForAdmin.add(positionCheckBox);
     }
 
+    //체크박스 리스너 클래스
     class positionCheckBoxItemListener implements ItemListener {
         @Override
         public void itemStateChanged(ItemEvent e) {
@@ -100,6 +105,7 @@ public class RegisterFrame extends JFrame {
         }
     }
 
+    // 회원가입한 유저를 유저리스트에 추가하는 메서드.
     public void addUser(List<User> users) {
         users.add(new User(userInfo[0], userInfo[1], userInfo[2], userInfo[3], userInfo[4]));
     }

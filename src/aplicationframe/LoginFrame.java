@@ -114,6 +114,7 @@ public class LoginFrame extends JFrame {
         }
     }
 
+    //회원가입창으로 넘어가는 리스너 클래스
     class RegisterActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

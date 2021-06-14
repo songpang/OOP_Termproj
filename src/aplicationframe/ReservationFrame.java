@@ -57,8 +57,6 @@ public class ReservationFrame extends JFrame{
         labelPanel.add(new JLabel("시간"));
         labelPanel.add(timeTextField);
         c.add(labelPanel);
-//        JTextField tableNumber = new JTextField();
-//        JTextField food = new JTextField();
 
         if(userInfo[2].equals("Admin")) {
             customerMileage.setEnabled(false);
@@ -125,6 +123,7 @@ public class ReservationFrame extends JFrame{
 
         cleanBtn.addActionListener(e -> {
             cleanSeat((String)tableNumber.getSelectedItem());
+//            customer.increaseAmount(Counter.calculatePrice(orderInfo[2]));
         });
 
         menuBtn.addActionListener(e -> {
@@ -180,6 +179,7 @@ public class ReservationFrame extends JFrame{
         }
     }
 
+    //주문 후 음식 배달을 위한 스레드 클래스
     private class DeliveryThread extends Thread {
         String[] orderInfo;
         int seatNumber;
@@ -190,6 +190,7 @@ public class ReservationFrame extends JFrame{
             seatNumber = Integer.parseInt(orderInfo[0]);
             this.hereLabel = orderedFoodLabel;
         }
+        //주문 후 5초가 지나면 음식이 배달된다.
         @Override
         public void run() {
             try {
