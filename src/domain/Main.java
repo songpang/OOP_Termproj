@@ -17,6 +17,7 @@ public class Main {
 
     private static boolean isLogin = false;
     private User loginUser;
+    private static final Counter counter = new Counter();
 
     public static User createDefaultUsers(String name) {
         String position = "Customer";
@@ -29,6 +30,6 @@ public class Main {
 
     public static void main(String[] args) {
         registeredUsers.add(createDefaultUsers("Song"));
-        loginFrame = new LoginFrame(registeredUsers);
+        loginFrame = new LoginFrame(counter, registeredUsers);
     }
 }

@@ -1,5 +1,6 @@
 package aplicationframe;
 
+import domain.Counter;
 import domain.User;
 
 import javax.swing.*;
@@ -19,10 +20,12 @@ public class LoginFrame extends JFrame {
     public static List<User> currentUsers;
     public static List<User> currentCustomers;
 
-    public final String[] userInfo = new String[2];
+    public final String[] userInfo = new String[3];
+    private final Counter counter;
 
-    public LoginFrame(List<User> users) {
+    public LoginFrame(Counter counter, List<User> users) {
         currentUsers = users;
+        this.counter = counter;
 
         setTitle("Login Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -97,12 +100,13 @@ public class LoginFrame extends JFrame {
                         System.out.println(currentUsers.size());
                         // 일반 사용자로 시작 시
                         if(customerRadio.isSelected()) {
-                            new ReservationFrame(userInfo);
+                            userInfo[2] = "Customer";
                         }
                         // 관리자로 시작 시
                         else {
-                            new ReservationFrame(userInfo);
+                            userInfo[2] = "Admin";
                         }
+                        new ReservationFrame(counter, userInfo);
                         return;
                     }
                 }

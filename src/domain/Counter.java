@@ -23,7 +23,7 @@ public class Counter {
         menu.put("부속고기", 12000);
     }
 
-    public static int reserve(int seatNumber, String food, String time) {
+    public static int reserve(int seatNumber, String memberCount, String food, String time) {
         int totalPrice = 0;
         for (Seat seat : reservedSeats) {
             // 예약하고자 하는 시간대의 좌석이 예약되어 있는지 체크.
@@ -34,7 +34,7 @@ public class Counter {
         }
 
         totalPrice = calculatePrice(food);
-        reservedSeats.add(new Seat(seatNumber, food, time, totalPrice));
+        reservedSeats.add(new Seat(seatNumber, food, memberCount, time, totalPrice));
         return totalPrice;
     }
 
@@ -54,7 +54,7 @@ public class Counter {
         int totalPrice = seat.getTotalPrice() + calculatePrice(additionalFood);
         String originalFood = seat.getFood();
         String newOrderedFood = originalFood + " " + additionalFood;
-        Seat modifiedSeat = new Seat(seat.getSeatNumber(), newOrderedFood, seat.getTime(), totalPrice);
+        Seat modifiedSeat = new Seat(seat.getSeatNumber(), newOrderedFood, seat.getMemberCount(), seat.getTime(), totalPrice);
 
         reservedSeats.remove(seat);
         reservedSeats.add(modifiedSeat);

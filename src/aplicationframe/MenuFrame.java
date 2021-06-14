@@ -19,6 +19,7 @@ public class MenuFrame extends JFrame{
         GridLayout grid = new GridLayout(12, 1, 30, 100);
         grid.setVgap(5);
         Container c = getContentPane();
+        setLocation(790, 0);
 
         JLabel nameOfMenu = new JLabel("*** 메뉴판 ***");
         nameOfMenu.setHorizontalAlignment(SwingConstants.CENTER);
