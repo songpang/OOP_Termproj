@@ -33,7 +33,7 @@ public class ReservationFrame extends JFrame{
         loginUserInfo = userInfo;
         this.counter = counter;
 
-        setTitle("Register Frame");
+        setTitle("Reservation Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = getContentPane();
 
