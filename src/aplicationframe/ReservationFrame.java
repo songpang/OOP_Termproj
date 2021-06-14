@@ -1,9 +1,6 @@
 package aplicationframe;
 
-import domain.Counter;
-import domain.Customer;
-import domain.Seat;
-import domain.User;
+import domain.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +18,7 @@ public class ReservationFrame extends JFrame{
     private final JButton cleanBtn = new JButton("정산");
     private final JButton menuBtn = new JButton("메뉴판");
     private final JButton additionalOrderBtn = new JButton("추가주문");
+    private final JButton checkReservationBtn = new JButton("예약자 보기");
     private final JLabel customerMileage = new JLabel();
     private final JTextField foodTextField = new JTextField();
     private final JTextField timeTextField = new JTextField();
@@ -28,6 +26,7 @@ public class ReservationFrame extends JFrame{
     private final Counter counter;
     private final String[] loginUserInfo;
     private Customer customer;
+    private Admin admin;
 
     public ReservationFrame(Counter counter, String[] userInfo) {
         loginUserInfo = userInfo;
@@ -63,14 +62,28 @@ public class ReservationFrame extends JFrame{
 
         if(userInfo[2].equals("Admin")) {
             customerMileage.setEnabled(false);
+            for (User currentUser : LoginFrame.currentUsers) {
+                if (currentUser.getId().equals(userInfo[0])) {
+                    admin = new Admin(currentUser.getPosition(),
+                            currentUser.getName(),
+                            currentUser.getId(),
+                            currentUser.getPassword(),
+                            currentUser.getPhoneNumber());
+                }
+            }
         } else {
             for (User currentUser : LoginFrame.currentUsers) {
                 if (currentUser.getId().equals(userInfo[0])) {
-                    customer = (Customer) currentUser;
+                    customer = new Customer(currentUser.getPosition(),
+                            currentUser.getName(),
+                            currentUser.getId(),
+                            currentUser.getPassword(),
+                            currentUser.getPhoneNumber());
                 }
             }
             customerMileage.setText("회원 마일리지 : " + customer.getTotalAmount());
             cleanBtn.setEnabled(false);
+            checkReservationBtn.setEnabled(false);
         }
 
         setSize(800, 600);
@@ -86,7 +99,7 @@ public class ReservationFrame extends JFrame{
         }
 
         tableNumber = new JComboBox<>(tableNumbers);
-        partyNumber = new JComboBox<>(new String[]{"식사 인권", "1", "2", "3", "4"});
+        partyNumber = new JComboBox<>(new String[]{"식사 인원", "1", "2", "3", "4"});
         currentPanel.add(tableNumber);
         currentPanel.add(partyNumber);
     }
@@ -97,20 +110,20 @@ public class ReservationFrame extends JFrame{
         btnPanel.add(cleanBtn);
         btnPanel.add(additionalOrderBtn);
         btnPanel.add(customerMileage);
+        btnPanel.add(checkReservationBtn);
 
         reserveBtn.addActionListener(e -> {
             System.out.println("클릭클릭");
 
             // 좌석, 인원, 음식, 시간
             orderInfo[0] = (String) tableNumber.getSelectedItem();
-            orderInfo[1] = (String) tableNumber.getSelectedItem();
+            orderInfo[1] = (String) partyNumber.getSelectedItem();
             orderInfo[2] = foodTextField.getText();
             orderInfo[3] = timeTextField.getText();
             reserveSeat(orderInfo);
         });
 
         cleanBtn.addActionListener(e -> {
-            System.out.println("청소");
             cleanSeat((String)tableNumber.getSelectedItem());
         });
 
@@ -119,10 +132,13 @@ public class ReservationFrame extends JFrame{
         });
 
         additionalOrderBtn.addActionListener(e -> {
-            System.out.println("추가 주문");
             String additionalOrder = "삼겹살";
 
             orderAdditionalFood(additionalOrder);
+        });
+
+        checkReservationBtn.addActionListener(e -> {
+            new UpReservationFrame(admin.checkAllReservation(counter.reservedSeats));
         });
     }
 
@@ -187,23 +203,7 @@ public class ReservationFrame extends JFrame{
         }
     }
 
-    private static class RefreshThread extends Thread {
-        String[] orderInfo;
-        public RefreshThread(String[] orderInfo) {
-            this.orderInfo = orderInfo;
-        }
-        @Override
-        public void run() {
-            try {
-                sleep(5000);
-                JOptionPane.showMessageDialog(null, orderInfo[0] + "번 자리에" + "\"음식이 배달되었습니다.\"",
-                        "음식 완료", JOptionPane.WARNING_MESSAGE);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
+    //추가 음식을 주문하는 메서드
     private void orderAdditionalFood(String food) {
         Seat currentSeat;
 

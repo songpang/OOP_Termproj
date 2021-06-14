@@ -1,6 +1,5 @@
 package domain;
 
-import aplicationframe.ApplicationFrame;
 import aplicationframe.LoginFrame;
 import aplicationframe.RegisterFrame;
 import aplicationframe.ReservationFrame;
@@ -10,13 +9,8 @@ import java.util.List;
 
 public class Main {
     private static LoginFrame loginFrame;
-    private static RegisterFrame registerFrame;
-    private static ReservationFrame reservationFrame;
-    private static ApplicationFrame applicationFrame;
     private static final List<User> registeredUsers = new ArrayList<>();
 
-    private static boolean isLogin = false;
-    private User loginUser;
     private static final Counter counter = new Counter();
 
     public static User createDefaultUsers(String name) {

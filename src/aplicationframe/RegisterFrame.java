@@ -76,8 +76,6 @@ public class RegisterFrame extends JFrame {
             System.out.println("Back Button Clicked");
             setVisible(false);
             getContentPane().getParent().setVisible(true);
-
-//            new LoginFrame();
         });
         jPanelForBackBtn.add(backBtn);
     }

@@ -10,8 +10,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class LoginFrame extends JFrame {
-    private int isAdmin = 0;
-
     private final JTextField idTextField = new JTextField("1");
     private final JTextField pwTextField = new JTextField("1");
     private JRadioButton customerRadio;

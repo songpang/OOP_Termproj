@@ -10,6 +10,7 @@ public class Counter {
         createMenu();
     }
 
+    //메뉴 미리 생성후 삽입.
     private void createMenu() {
         menu.put("김치찌개", 8000);
         menu.put("된장찌개", 8000);
@@ -23,6 +24,7 @@ public class Counter {
         menu.put("부속고기", 12000);
     }
 
+    //자리를 예약하는 메서드
     public static int reserve(int seatNumber, String memberCount, String food, String time) {
         int totalPrice = 0;
         for (Seat seat : reservedSeats) {
@@ -38,6 +40,7 @@ public class Counter {
         return totalPrice;
     }
 
+    //음식의 총 값을 계산하는 메서드
     public static int calculatePrice(String food) {
         int totalPrice = 0;
         String[] foods = food.split(" ");
